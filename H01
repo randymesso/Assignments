@@ -1,0 +1,259 @@
+#include <iostream>
+
+using namespace std;
+/////////////////////////////////////////////////////////////////
+// Author:     Randy Messo
+// Email:      Rmesso0807@my.msutexas.edu
+// Label:      H01
+// Title:      Basic Project Organization
+// Course:     CMPS 2143
+// Semester:   Spring 2020
+//
+// Description: 
+//     This program creates a linked list it allows you to push and pop
+//     values in the list. It also allows you to print out the list.
+//
+// Usage: 
+//     Run the code in a programming software
+// 
+// Files:
+//     Main.cpp: Driver program
+////////////////////////////////////////////////////////////////
+
+int A[100];
+
+struct Node
+{
+    int x;
+    Node *next;
+    Node()
+    {
+        x = -1;
+        next = NULL;
+    }
+    Node(int n)
+    {
+        x = n;
+        next = NULL;
+    }
+};
+/**
+ * List
+ * 
+ * Description:
+ *        This class creates a linked list and increments the size.
+ *        As the size becomes larger, the program increases a variable
+ *        called size. To increment the size, a function named push inserts
+ *        the next value at the front of the list. 
+ *
+ * Public Methods: 
+ *                        List()
+ *        void            Push(value)  
+ *        void            Insert(value)
+ *        void            PrintTail()
+ *        int             Pop()
+ *        List            operator+(const List &Rhs)
+ *        int             operater[](index)
+ * Private Methods:
+ *        None
+ *
+ * Usage: 
+ *  L.push(5)            //Can be used to add values to your function
+ */
+class List
+{
+  private:
+    Node *Head;
+    Node *Tail;
+    int Size;
+
+  public:
+    List()
+    {
+        Head = Tail = NULL;
+        Size = 0;
+    }
+ /**
+  * Public: Push
+  * 
+  * Description: 
+  *       Creates list and implements a value at the begginning in the 
+  *       temp spot. Then it incraments the temp variable
+  * Params:
+  *       int:  values
+  * Returns:
+  *         None
+  */
+    void Push(int val)
+    {
+        // allocate new memory and init node
+        Node *Temp = new Node(val);
+
+        if (!Head && !Tail)
+        {
+            Head = Tail = Temp;
+        }
+        else
+        {
+            Tail->next = Temp;
+            Tail = Temp;
+        }
+        Size++;
+    }
+ /**
+  * Public: Insert
+  * 
+  * Description: 
+  *         Incrament a list and set the head to the next variable
+  *
+  * Params:
+  *         int:    Value
+  * Returns:
+  *          None
+  */
+    void Insert(int val)
+    {
+        // allocate new memory and init node
+        Node *Temp = new Node(val);
+
+        // figure out where it goes in the list
+
+        Temp->next = Head;
+        Head = Temp;
+        if (!Tail)
+        {
+            Tail = Head;
+        }
+        Size++;
+    }
+
+ /**
+  * Public: PrintTail
+  * 
+  * Description: 
+  *         Prints the tail of the linked list         
+  * Params:
+  *         None
+  * Returns:
+  *         None
+  */
+    void PrintTail()
+    {
+        cout << Tail->x << endl;
+    }
+
+ /**
+  * Public: Print
+  * 
+  * Description: 
+  *         Creates a linked list. Fills the list, 
+  *         and creates a string out of the list. 
+  * Params:
+  *        None
+  * Returns:
+  *         returns a list in a string form 
+  */
+    string Print()
+    {
+        Node *Temp = Head;
+        string list;
+
+        while (Temp != NULL)
+        {
+            list += to_string(Temp->x) + "->";
+            Temp = Temp->next;
+        }
+
+        return list;
+    }
+
+    // not implemented 
+    int Pop()
+    {
+        Size--;
+        return 0; //
+    }
+
+    List operator+(const List &Rhs)
+    {
+        // Create a new list that will contain both when done
+        List NewList;
+
+        // Get a reference to beginning of local list
+        Node *Temp = Head;
+
+        // Loop through local list and Push values onto new list
+        while (Temp != NULL)
+        {
+            NewList.Push(Temp->x);
+            Temp = Temp->next;
+        }
+
+        // Get a reference to head of Rhs
+        Temp = Rhs.Head;
+
+        // Same as above, loop and push
+        while (Temp != NULL)
+        {
+            NewList.Push(Temp->x);
+            Temp = Temp->next;
+        }
+
+        // Return new concatenated version of lists
+        return NewList;
+    }
+
+    // Implementation of [] operator.  This function returns an
+    // int value as if the list were an array.
+    int operator[](int index)
+    {
+        Node *Temp = Head;
+
+        if (index >= Size)
+        {
+            cout << "Index out of bounds, exiting";
+            exit(0);
+        }
+        else
+        {
+
+            for (int i = 0; i < index; i++)
+            {
+                Temp = Temp->next;
+            }
+            return Temp->x;
+        }
+    }
+
+    friend ostream &operator<<(ostream &os, List L)
+    {
+        os << L.Print();
+        return os;
+    }
+};
+
+int main(int argc, char **argv)
+{
+    List L1;
+    List L2;
+
+    for (int i = 0; i < 25; i++)
+    {
+        L1.Push(i);
+    }
+
+    for (int i = 50; i < 100; i++)
+    {
+        L2.Push(i);
+    }
+
+    //cout << L1 << endl;
+    L1.PrintTail();
+    L2.PrintTail();
+
+    List L3 = L1 + L2;
+    cout << L3 << endl;
+
+    cout << L3[5] << endl;
+    return 0;
+}
