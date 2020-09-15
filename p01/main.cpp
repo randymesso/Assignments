@@ -17,6 +17,7 @@
 //       None
 /////////////////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include<fstream>
 #include <string>
 
 using namespace std;
@@ -100,10 +101,13 @@ public:
      * Returns:
      *     Void
      */
+     
     void Push(int data) 
     {
+      
         if (size == capacity)
         {
+          cout << "+ : " << capacity << " -> " << capacity * 2 << endl;
           S2 = new int[capacity*2]; //allocate new memory twice the original
           for(int i = 0;i<capacity;i++) //Fill new array
           {
@@ -111,6 +115,7 @@ public:
           }
           delete [] S; //Prevent a memory leak
           S = S2;
+          capacity = capacity * 2;
         }
           top++;              // move top of stack up
           size++;             // increment size
@@ -128,20 +133,25 @@ public:
      */
     int Pop() 
     {
+        if ((capacity / 2) - 1 == size)
+        {
+          cout << "- : " << capacity << " -> " << capacity / 2 << endl;
+          capacity = capacity / 2;
+        }
         if (size == 0)
         {
           cout << "Error stack is empty!\n";
           return -1;
-        }
-        else
+        } 
+        else 
         {
         int data = S[top];  // pull item from stack
-        top--;              // shrink the stack
-        size--;             // update our size
-        return data;        // send item back
+          top--;              // shrink the stack
+          size--;             // update our size
+          return data;        // send item back
         }
+      
     }
-
     /**
      * Empty:
      *    is the stack empty?
@@ -203,29 +213,38 @@ public:
         return os;
     }
 };
-
-int main() {
+int main() 
+{
     Stack S1;           // calls default constructor
     Stack S2(10);       // calls overloaded constructor
-    S2.Pop();
-    
-    S2.Push(1);
-    S2.Push(2);
-    S2.Push(3);
-    S2.Push(4);
-    S2.Push(5);
-    S2.Push(6);
-    S2.Push(7);
-    S2.Push(8);
-    S2.Push(9);
-    S2.Push(10);
-    S2.Push(11);        //Tries to inset outside of the"cap"
-    S2.Print();
+    cout << "Name: Randy Messo\n";
+    cout << "Program: P01\n";
+    cout << "Date: 15 Sep 2020\n" << endl;
+    ifstream fin;
+    ofstream outfile;
+    outfile.open("Outfile.txt");
+    outfile << "Name: Randy Messo\n";
+    outfile << "Program: P01\n";
+    outfile << "Date: 15 Sep 2020\n" << endl;
+    outfile << "Start Size: " << "10\n";
+    outfile << "Max Size: 128" << endl;
+    string command;
+    int value;
 
-    cout << "Popped a: " << S2.Pop() << endl;
-    cout << "Popped a: " << S2.Pop() << endl;
-    cout << "Put in a 45" << endl;
-    
-    S2.Push(45);         //Add a new value after popping
-    S2.Print();          //Print out the new list
+    fin.open("input");
+    while(!fin.eof())
+    {
+        fin>>command;           // read push or pop  
+        if(command == "push")
+        {  // if command is a push we need
+            fin>>value;         // to read a value in as well
+            S1.Push(value);    
+        }
+        else
+        { 
+        S1.Pop();
+        }
+    }
+  outfile << "Ending Size: 64";
+
 }
