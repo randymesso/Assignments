@@ -1,0 +1,28 @@
+#Class: Game
+##Data members: Players, NumOfDecks, Bet. These Data members are responsible for keeping track of the number of players in the game, the number of decks in the game, and the current bet
+that is taking place. Methods: Print, Deal, AcceptBets, Push. These methods are able to print the current status of the game to the console, deal the cards out to the players,
+accept bets as to what players want to risk(in this case always 100), or to call the game a tie with push.
+#Class: Player
+##Data members: Bank, Name, State: These keep track of how much money the player has left, the names of the players, and a variable keeping track of what numerical value their cards 
+have. Methods: Bet, Win, Hit, DoubleDown, Stand, Quit. These methods allow wichever player is playing to go through the common functions of the game. 
+#Class: Dealer
+##Data members: Same as player plus "Hand". This keeps track of the current hand that is automatically given to the deal with the first two cards. Methods: same as player plus
+"shuffle" this allows the dealer to shuffle the cards as well when the game is going. 
+#Class Bank
+##Data members: Amount. This keeps track of how much money each player has in the bank at a given time. Methods: Deposit, Withdrawl. These allow the given player or dealer to add
+or takeaway money so they can bet from their bank.
+#Class Hand
+##Data Members: Size, Remaining. These keep track of how many cards are in the deck and how many are remaining in the user's hand at the time. Methods: Shuffle, sort, discard. 
+These allow the hand class to perform common tasks that are needed to help the game contiue fluidly
+#Class Card
+##Data Members: Rank, Name, Value, Suit. These allow the program and user to know which card is being talked about at the given moment and to keep track of it. Methods: SetRank, 
+SetValue, GetRank, GetCalue, Print. These methods help the user keep track of their cards and can even be used to manipulate them. For example these would allow you to change a 
+ace from being worth 11 to 1. 
+#Class Deck
+##Data Members: Size, Remaining. This just tells us what the starting size of the deck was and how many cards are left after playing however long. Methods: Deal, shuffle, Reset. 
+These allow the deck to be shuffled, dealt, and even reset to the way that it was to start. 
+
+#How they work together: 
+##Without the game, there is no instance of player(allowed 1 or more) or dealer(just one). The dealer inherits from bank and player and player inherits from bank. Looking at
+both the dealer and the player, each of them only have one bank. Without the player, there is no hand. The player only has one hand at a time. That's when we get to the card 
+class. This can exist seperately from the hand or the deck and can have zero or more instances. 
